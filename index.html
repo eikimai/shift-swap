@@ -5,39 +5,37 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="換班">
+<meta name="apple-mobile-web-app-title" content="我的班表">
 <meta name="theme-color" content="#0f766e">
 <meta name="color-scheme" content="light dark">
-<title>換班系統</title>
+<title>我的班表</title>
 <link rel="apple-touch-icon" id="touchIcon" href="data:,">
 <style>
 :root{
   --bg:#f3f6f5;--card:#fff;--ink:#14201e;--muted:#667674;--line:#e0e8e6;
-  --brand:#0f766e;--brand-ink:#fff;--soft:#e5f3f0;--danger:#c0392b;--warn:#a8680f;--warn-bg:#fdf3e1;--err-bg:#fdeceb;
+  --brand:#0f766e;--brand-ink:#fff;--soft:#e5f3f0;--danger:#c0392b;--warn:#a8680f;--warn-bg:#fdf3e1;--err-bg:#fdeceb;--ok-bg:#dff5e8;--ok:#17743d;
   --c-early:#0f9d8a;--c-day:#e8833a;--c-eve:#4f6bed;--c-night:#8b5cc7;--c-other:#8a9794;
-  --shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(15,60,55,.07);
-  --r:14px;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(15,60,55,.07);--r:14px;
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#0d1413;--card:#152120;--ink:#e8f1ef;--muted:#8da19e;--line:#243430;
-    --brand:#35b8a8;--brand-ink:#04211e;--soft:#16302c;--danger:#ff8070;--warn:#e3b45c;--warn-bg:#2b2410;--err-bg:#331a17;--shadow:none}
+  :root{--bg:#0d1413;--card:#152120;--ink:#e8f1ef;--muted:#8da19e;--line:#243430;--brand:#35b8a8;--brand-ink:#04211e;--soft:#16302c;
+    --danger:#ff8070;--warn:#e3b45c;--warn-bg:#2b2410;--err-bg:#331a17;--ok-bg:#12301f;--ok:#6fdca0;--shadow:none}
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
-  padding-bottom:calc(76px + env(safe-area-inset-bottom));min-height:100vh}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;padding-bottom:calc(76px + env(safe-area-inset-bottom));min-height:100vh}
 #app{max-width:640px;margin:0 auto}
 button,input,textarea,select{font:inherit;color:inherit}
-h2{font-size:22px;margin:8px 0 6px;letter-spacing:.2px}
+h2{font-size:22px;margin:8px 0 6px}
 h3{font-size:16px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
 p{margin:6px 0}
-.muted{color:var(--muted)}
-.small{font-size:13px}
+.muted{color:var(--muted)}.small{font-size:13px}
 .top{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
-.brand{font-weight:700;font-size:18px;letter-spacing:.5px}
+.brand{font-weight:700;font-size:18px}
 .who{font-size:13px;color:var(--muted);text-align:right;line-height:1.3}
 main{padding:14px 16px 24px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:12px 0;box-shadow:var(--shadow)}
+.card.flat{box-shadow:none;background:var(--bg)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;background:var(--brand);color:var(--brand-ink);padding:11px 18px;border-radius:11px;font-weight:600;cursor:pointer;text-decoration:none;min-height:44px}
 .btn:active{transform:scale(.98)}
 .btn.ghost{background:transparent;color:var(--brand);border:1.5px solid var(--brand)}
@@ -46,89 +44,89 @@ main{padding:14px 16px 24px}
 .btn.block{width:100%}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .link{background:none;border:0;color:var(--brand);padding:6px 0;cursor:pointer;font-weight:600}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.spread{justify-content:space-between}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.spread{justify-content:space-between}
 label.f{display:block;margin:12px 0 4px;font-size:14px;color:var(--muted)}
-input[type=text],input[type=password],textarea{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:11px;background:var(--bg);outline:none}
-input:focus,textarea:focus{border-color:var(--brand)}
-textarea{min-height:150px;resize:vertical;font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
-.msg{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:14px;display:none}
-.msg.show{display:block}
-.msg.err{background:var(--err-bg);color:var(--danger)}
-.msg.warn{background:var(--warn-bg);color:var(--warn)}
-.auth{padding:calc(40px + env(safe-area-inset-top)) 20px 30px}
+input[type=text],input[type=date],input[type=time],textarea,select,.select{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:11px;background:var(--bg);outline:none;text-align:left;min-height:46px}
+input:focus,textarea:focus,select:focus{border-color:var(--brand)}
+textarea{min-height:96px;resize:vertical}
+textarea.mono{font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;min-height:150px}
+.select{display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px}
+.msg{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:14px;display:none}.msg.show{display:block}
+.msg.err{background:var(--err-bg);color:var(--danger)}.msg.warn{background:var(--warn-bg);color:var(--warn)}.msg.ok{background:var(--ok-bg);color:var(--ok)}
+.auth{padding:calc(36px + env(safe-area-inset-top)) 20px 30px}
 .auth h1{font-size:28px;margin:0 0 4px}
 .tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);z-index:6}
 .tabs .in{display:flex;width:100%;max-width:640px}
-.tab{flex:1;background:none;border:0;padding:9px 0 8px;color:var(--muted);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative;cursor:pointer}
+.tab{flex:1;background:none;border:0;padding:9px 0 8px;color:var(--muted);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
 .tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--brand);font-weight:700}
-.badge{position:absolute;top:4px;left:calc(50% + 8px);background:var(--danger);color:#fff;border-radius:10px;font-size:11px;min-width:18px;height:18px;line-height:18px;text-align:center;padding:0 5px;font-weight:700}
 .mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .mhead .t{font-size:20px;font-weight:700}
 .nav{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:20px;cursor:pointer;color:var(--ink)}
 .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .wd{text-align:center;font-size:12px;color:var(--muted);padding:4px 0}
-.cell{position:relative;min-height:62px;border-radius:10px;border:1px solid var(--line);background:var(--card);padding:4px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:var(--ink);overflow:hidden}
+.cell{position:relative;min-height:62px;border-radius:10px;border:1px solid var(--line);background:var(--card);padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:var(--ink);overflow:hidden}
 .cell.empty{border:0;background:none;cursor:default}
 .cell.today{border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand)}
+.cell.sel{background:var(--soft);border-color:var(--brand);box-shadow:inset 0 0 0 2px var(--brand)}
+.cell.dim{opacity:.45}
 .cell .dn{font-size:13px;font-weight:600;color:var(--muted)}
 .cell.today .dn{color:var(--brand)}
 .cell.static{cursor:default}
+.cell .star{position:absolute;top:2px;right:4px;font-size:11px;color:var(--c-day)}
 .chip{display:flex;flex-direction:column;align-items:center;line-height:1.15;border-top:3px solid var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border-radius:5px;padding:2px 3px;width:calc(100% - 6px);font-weight:700;font-size:13px}
 .chip small{font-size:10px;font-weight:500;color:var(--muted)}
 .legend{display:flex;gap:12px;flex-wrap:wrap;margin:10px 2px;font-size:12px;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
 .empty-card{text-align:center;padding:22px 16px}
 .pill{display:inline-block;padding:1px 9px;border-radius:20px;font-size:12px;font-weight:600;background:var(--soft);color:var(--brand)}
-.pill.gray{background:var(--bg);color:var(--muted)}
-.pill.ok{background:#dff5e8;color:#17743d}.pill.no{background:var(--err-bg);color:var(--danger)}.pill.wait{background:var(--warn-bg);color:var(--warn)}
-@media (prefers-color-scheme:dark){.pill.ok{background:#12301f;color:#6fdca0}}
+.pill.gray{background:var(--bg);color:var(--muted)}.pill.duty{background:var(--warn-bg);color:var(--warn)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.no{background:var(--err-bg);color:var(--danger)}
 .sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20}
-.sheet{position:fixed;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:var(--card);border-radius:20px 20px 0 0;z-index:21;padding:8px 18px calc(24px + env(safe-area-inset-bottom));max-width:640px;margin:0 auto;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:90vh;overflow:auto;background:var(--card);border-radius:20px 20px 0 0;z-index:21;padding:8px 18px calc(24px + env(safe-area-inset-bottom));max-width:640px;margin:0 auto;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
 .grab{width:42px;height:5px;border-radius:3px;background:var(--line);margin:4px auto 12px}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
-.fchip{border:1.5px solid var(--line);background:none;border-radius:20px;padding:5px 13px;font-size:14px;white-space:nowrap;cursor:pointer}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--card);border-radius:18px;padding:20px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modal h3{font-size:18px}
+.warnbox{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:15px;white-space:pre-wrap;word-break:break-word}
+.fchip{border:1.5px solid var(--line);background:none;border-radius:20px;padding:8px 16px;font-size:15px;white-space:nowrap;cursor:pointer;min-height:40px}
 .fchip.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
-.grp{margin:14px 0 4px;display:flex;align-items:center;gap:8px;font-weight:700}
-.grp .bar{width:4px;height:18px;border-radius:2px;background:var(--c)}
-.grp small{font-weight:500;color:var(--muted)}
-.person{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
-.person:last-child{border-bottom:0}
-.person .nm{font-weight:600}
-.person.me{background:var(--soft);margin:0 -8px;padding:9px 8px;border-radius:9px;border-bottom:0}
-.opt{display:flex;gap:10px;align-items:center;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;margin:8px 0;cursor:pointer}
-.opt input{width:20px;height:20px;accent-color:var(--brand)}
-.opt:has(input:checked){border-color:var(--brand);background:var(--soft)}
-.step h3 b{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--brand);color:var(--brand-ink);align-items:center;justify-content:center;font-size:13px}
+.chipgrid{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.bigshift{display:flex;align-items:center;gap:12px;border-left:6px solid var(--c);background:color-mix(in srgb,var(--c) 12%,transparent);padding:12px 14px;border-radius:10px;margin:8px 0}
+.bigshift b{font-size:22px}
+.sw{display:flex;align-items:center;gap:10px;margin:6px 0;cursor:pointer}
+.sw input{width:22px;height:22px;accent-color:var(--brand)}
+.step b.n{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--brand);color:var(--brand-ink);align-items:center;justify-content:center;font-size:13px}
 .step ol{padding-left:20px;margin:8px 0}
-.thumb{max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--line);display:block;margin:10px 0}
+.thumb{max-width:100%;max-height:420px;border-radius:10px;border:1px solid var(--line);display:block;margin:10px 0}
 details summary{cursor:pointer;color:var(--brand);font-weight:600;padding:6px 0}
-.req{padding:12px 0;border-bottom:1px solid var(--line)}
-.req:last-child{border-bottom:0}
-.sec{font-size:13px;color:var(--muted);font-weight:700;margin:20px 2px 4px;letter-spacing:.5px}
+.cmp{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+.person{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+.person h4{margin:0 0 6px;font-size:15px}
+.person .ln{display:flex;gap:8px;align-items:baseline;margin:3px 0}
+.person .tag{font-size:12px;font-weight:700;padding:1px 8px;border-radius:6px;flex:none}
+.tag.out{background:var(--err-bg);color:var(--danger)}.tag.in{background:var(--ok-bg);color:var(--ok)}
+.log{padding:12px 0;border-bottom:1px solid var(--line)}.log:last-child{border-bottom:0}
+.log.undone{opacity:.55}
+.floatbar{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));max-width:616px;margin:0 auto;background:var(--ink);color:var(--bg);padding:10px 12px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;z-index:7;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.floatbar .btn{min-height:38px;padding:7px 14px}
 table{width:100%;border-collapse:collapse;font-size:14px}
 td,th{text-align:left;padding:7px 4px;border-bottom:1px solid var(--line)}
-#toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:40;max-width:88vw;display:none;text-align:center}
+#toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;max-width:88vw;display:none;text-align:center}
 #toast.err{background:#b3261e}
-.center{text-align:center;padding:40px 0;color:var(--muted)}
+.center{text-align:center;padding:30px 0;color:var(--muted)}
+.sec{font-size:13px;color:var(--muted);font-weight:700;margin:20px 2px 4px}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <div id="sheet"></div>
+<div id="modal"></div>
 <div id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 /* ============ 設定 ============ */
-const SUPABASE_URL = 'https://pewgskfbgtgvuotvumhc.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_WPIVoFWQyFHMzojjXP3uTg_2M4DLNFj'; // 公開金鑰,可放前端
-const AUTH_DOMAIN  = 'evaair.com'; // 只是內部帳號標籤:人事代號@此網域。系統不會寄任何信
-const AI_LINKS = [
-  {name:'ChatGPT', url:'https://chatgpt.com'},
-  {name:'Claude',  url:'https://claude.ai'},
-  {name:'Gemini',  url:'https://gemini.google.com'}
-];
+const SKILLS = ['A','B','C','C+','G','V','OZ','NX','HX','BX','TR','T1','TG'];
+const AI_LINKS = [{name:'ChatGPT',url:'https://chatgpt.com'},{name:'Claude',url:'https://claude.ai'},{name:'Gemini',url:'https://gemini.google.com'}];
 const PROMPT = `你是班表轉換器。請讀取我附上的「月班表」截圖,只輸出下方格式的純文字(放在一個程式碼區塊內),不要任何解釋或多餘文字。
 
 規則:
@@ -156,7 +154,13 @@ hL|15:30|00:00
 2026-11-01|hL
 2026-11-24|Hv`;
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {auth:{persistSession:true,autoRefreshToken:true}});
+/* ============ 資料(只存在這支手機的瀏覽器裡) ============ */
+const KEY = 'myshift.local.v1';
+const blank = () => ({v:1, profile:null, types:{}, shifts:{}, swaps:[]});
+function load(){ try{ const d=JSON.parse(localStorage.getItem(KEY)); if(d && d.v===1) return Object.assign(blank(), d); }catch(e){} return blank(); }
+let D = load();
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(D)); return true; }catch(e){ toast('儲存失敗:瀏覽器不允許儲存(是否為無痕模式?)', true); return false; } }
+const draft = { get(){ try{ return JSON.parse(localStorage.getItem('myshift.draft'))||{} }catch(e){ return {} } }, set(v){ try{ localStorage.setItem('myshift.draft', JSON.stringify(v)) }catch(e){} } };
 
 /* ============ 小工具 ============ */
 const $ = s => document.querySelector(s);
@@ -165,511 +169,418 @@ const pad = n => String(n).padStart(2,'0');
 const ymd = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const todayStr = () => ymd(new Date());
 const WD = ['日','一','二','三','四','五','六'];
-const hhmm = t => t ? String(t).slice(0,5) : '';
 const nextMonth = k => { const [y,m]=k.split('-').map(Number); return m===12?`${y+1}-01`:`${y}-${pad(m+1)}`; };
 const prevMonth = k => { const [y,m]=k.split('-').map(Number); return m===1?`${y-1}-12`:`${y}-${pad(m-1)}`; };
 const fmtD = s => { const [y,m,d]=s.split('-').map(Number); return `${pad(m)}/${pad(d)}(${WD[new Date(y,m-1,d).getDay()]})`; };
-const fmtTime = iso => new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Taipei',dateStyle:'short',timeStyle:'short'}).format(new Date(iso));
+const fmtAt = iso => new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Taipei',dateStyle:'short',timeStyle:'short'}).format(new Date(iso));
 const isOff = c => /[XYZ]/.test(c);
-const normId = s => String(s||'').trim().toUpperCase();
-const emailOf = id => `${id.toLowerCase()}@${AUTH_DOMAIN}`;
-const store = { get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}} };
-
+const timeOf = code => { const t=D.types[code]; return t ? `${t.start}–${t.end}` : ''; };
+const sortedTypes = () => Object.entries(D.types).sort((a,b)=>a[1].start.localeCompare(b[1].start)||a[0].localeCompare(b[0]));
+const skillText = () => (D.profile&&D.profile.skills.length) ? D.profile.skills.join(' / ') : '未填';
 let toastTimer;
 function toast(msg, err){ const t=$('#toast'); t.textContent=msg; t.className=err?'err':''; t.style.display='block'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.style.display='none',err?4500:2400); }
-const fail = e => { console.error(e); toast((e && e.message) || String(e), true); };
-
-function setupIcon(){
-  try{ const c=document.createElement('canvas'); c.width=c.height=180; const x=c.getContext('2d');
-    x.fillStyle='#0f766e'; x.fillRect(0,0,180,180); x.fillStyle='#fff'; x.font='bold 100px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText('換',90,98);
-    $('#touchIcon').href=c.toDataURL('image/png'); }catch(e){}
+const fail = e => { console.error(e); toast((e&&e.message)||String(e), true); };
+function setupIcon(){ try{ const c=document.createElement('canvas'); c.width=c.height=180; const x=c.getContext('2d'); x.fillStyle='#0f766e'; x.fillRect(0,0,180,180); x.fillStyle='#fff'; x.font='bold 100px sans-serif'; x.textAlign='center'; x.textBaseline='middle'; x.fillText('班',90,98); $('#touchIcon').href=c.toDataURL('image/png'); }catch(e){} }
+function colorOf(code, types=D.types){
+  const t=types[code]; if(!t||!t.start) return 'var(--c-other)';
+  const h=parseInt(t.start.slice(0,2),10);
+  if(h>=4&&h<9) return 'var(--c-early)'; if(h>=9&&h<14) return 'var(--c-day)'; if(h>=14&&h<18) return 'var(--c-eve)'; return 'var(--c-night)';
+}
+function download(name, text, mime){
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:mime})); a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+}
+async function copyText(text){
+  try{ await navigator.clipboard.writeText(text); return true; }catch(e){
+    try{ const ta=document.createElement('textarea'); ta.value=text; ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta); ta.focus(); ta.select(); const ok=document.execCommand('copy'); ta.remove(); return ok; }catch(e2){ return false; }
+  }
 }
 
 /* ============ 狀態 ============ */
-const S = {
-  me:null, staff:new Map(), types:new Map(),
-  tab:'cal', page:null, month:(()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}`})(),
-  myMonth:new Map(), monthLoaded:null,
-  reqs:[], pendingIn:0, logs:[], logMonth:null, lastLoad:0,
-  day:null, loading:false,
-  imp:Object.assign({img:null,imgName:'',text:'',revealed:false,parsed:null,copied:false}, store.get('imp')||{}, {img:null,imgName:'',parsed:null,copied:false})
-};
-S.logMonth = S.month;
-const colorOf = (code, types=S.types) => {
-  const t = types.get(code); const raw = t && (t.start_time ?? t.start); if(!raw) return 'var(--c-other)';
-  const h = parseInt(String(raw).slice(0,2),10);
-  if(h>=4 && h<9) return 'var(--c-early)'; if(h>=9 && h<14) return 'var(--c-day)'; if(h>=14 && h<18) return 'var(--c-eve)'; return 'var(--c-night)';
-};
-const rangeOf = code => { const t=S.types.get(code); return t ? `${hhmm(t.start_time)}–${hhmm(t.end_time)}` : ''; };
-const nameOf = emp => (S.staff.get(emp)||{}).name || emp;
+const S = { tab:'cal', page:null, month:ymd(new Date()).slice(0,7), logMonth:ymd(new Date()).slice(0,7),
+  sel:null, afterImport:false, day:null, setup:null, sw:null,
+  imp:{text:draft.get().text||'', img:null, imgName:'', parsed:null, copied:false} };
 
-/* ============ 資料載入 ============ */
-async function loadRefs(){
-  const [st,ty] = await Promise.all([
-    sb.from('staff').select('employee_id,name,skill_level'),
-    sb.from('shift_types').select('code,start_time,end_time')
-  ]);
-  if(st.error) throw st.error; if(ty.error) throw ty.error;
-  S.staff = new Map(st.data.map(r=>[r.employee_id,r]));
-  S.types = new Map(ty.data.map(r=>[r.code,r]));
-}
-async function loadMonth(){
-  const k=S.month;
-  const {data,error} = await sb.from('shifts').select('id,work_date,shift_code').eq('employee_id',S.me.employee_id).gte('work_date',k+'-01').lt('work_date',nextMonth(k)+'-01');
-  if(error) throw error;
-  if(k!==S.month) return;
-  S.myMonth = new Map(data.map(r=>[r.work_date,r])); S.monthLoaded=k;
-}
-async function loadSwaps(){
-  const {data,error} = await sb.from('swap_requests').select('*').order('created_at',{ascending:false}).limit(200);
-  if(error) throw error;
-  const me=S.me.employee_id;
-  S.reqs = data.filter(r=>r.requester===me || r.target===me);
-  S.pendingIn = S.reqs.filter(r=>r.target===me && r.status==='pending').length;
-}
-async function loadLogs(){
-  const {data,error} = await sb.from('swap_logs').select('*').order('swapped_at',{ascending:false}).limit(1000);
-  if(error) throw error;
-  const me=S.me.employee_id;
-  S.logs = data.filter(r=>r.a_emp===me || r.b_emp===me);
-}
-async function refreshAll(){
-  try{ await loadRefs(); await Promise.all([loadMonth(),loadSwaps(),loadLogs()]); S.lastLoad=Date.now(); renderMain(); }
-  catch(e){ fail(e); renderMain(); }
-}
-
-/* ============ 登入 / 註冊 ============ */
-function renderAuth(mode, note){
-  S.view='auth'; S.authMode=mode;
-  const reg = mode==='register', claim = mode==='claim';
-  $('#app').innerHTML = `
-  <div class="auth">
-    <h1>換班系統</h1>
-    <p class="muted">${claim?'帳號已建立,請完成人事資料綁定':reg?'第一次使用?建立你的帳號':'用人事代號登入'}</p>
-    <form class="card" data-form="${mode}" autocomplete="on">
-      <label class="f" for="f_id">人事代號</label>
-      <input type="text" id="f_id" autocomplete="username" autocapitalize="characters" inputmode="text" ${claim?'readonly':''} value="${esc(claim?S.claimId:'')}">
-      ${reg||claim?`
-      <label class="f" for="f_name">姓名</label><input type="text" id="f_name" autocomplete="name">
-      <label class="f" for="f_skill">戰力</label><input type="text" id="f_skill" placeholder="例如:A、資深、8…(同事都看得到)">`:''}
-      ${claim?'':`<label class="f" for="f_pw">密碼${reg?'(至少 6 碼)':''}</label><input type="password" id="f_pw" autocomplete="${reg?'new-password':'current-password'}">`}
-      ${reg||claim?`<label class="f" for="f_code">邀請碼</label><input type="text" id="f_code" autocomplete="off" placeholder="向管理者索取">`:''}
-      <div class="msg err ${note?'show':''}" id="authMsg">${esc(note||'')}</div>
-      <button class="btn block" style="margin-top:16px" id="authGo">${claim?'完成綁定':reg?'註冊':'登入'}</button>
-    </form>
-    <p class="center" style="padding:10px 0">
-      ${claim?'<button class="link" data-act="logout">登出</button>':reg?'已有帳號?<button class="link" data-act="authMode" data-mode="login">登入</button>':'第一次使用?<button class="link" data-act="authMode" data-mode="register">註冊</button>'}
-    </p>
-    <p class="muted small" style="text-align:center">忘記密碼請聯絡管理者重設</p>
-  </div>`;
-}
-function authErr(msg){ const m=$('#authMsg'); if(m){ m.textContent=msg; m.className='msg err show'; } }
-function mapAuthError(e){
-  const m=(e&&e.message)||String(e);
-  if(/Invalid login credentials/i.test(m)) return '人事代號或密碼錯誤';
-  if(/at least/i.test(m)) return '密碼至少 6 碼';
-  if(/invalid/i.test(m) && /email/i.test(m)) return '帳號格式被系統拒絕(email invalid),請回報管理者:'+m;
-  if(/rate limit|too many/i.test(m)) return '嘗試次數太多,請稍後再試';
-  return m;
-}
-async function submitAuth(mode){
-  const btn=$('#authGo'); btn.disabled=true;
-  try{
-    const id = normId($('#f_id').value);
-    if(!/^[A-Z0-9]{2,20}$/.test(id)) throw new Error('人事代號只能是英數字');
-    if(mode==='login'){
-      const pw=$('#f_pw').value; if(!pw) throw new Error('請輸入密碼');
-      const {error}=await sb.auth.signInWithPassword({email:emailOf(id),password:pw}); if(error) throw error;
-      return await afterLogin();
-    }
-    const name=$('#f_name').value.trim(), skill=$('#f_skill').value.trim(), code=$('#f_code').value.trim();
-    if(!name) throw new Error('請填姓名'); if(!skill) throw new Error('請填戰力'); if(!code) throw new Error('請填邀請碼');
-    if(mode==='register'){
-      const pw=$('#f_pw').value; if(pw.length<6) throw new Error('密碼至少 6 碼');
-      const email=emailOf(id);
-      let {data,error}=await sb.auth.signUp({email,password:pw});
-      if(error && /already|registered/i.test(error.message)){
-        ({data,error}=await sb.auth.signInWithPassword({email,password:pw}));
-        if(error) throw new Error('這個人事代號已註冊但密碼不符。請改用登入;忘記密碼請聯絡管理者');
-      } else if(error) throw error;
-      if(!data.session) throw new Error('專案仍要求信箱驗證,請管理者到 Supabase 關閉 Confirm email');
-    }
-    const {error:ce}=await sb.rpc('claim_staff',{p_emp:id,p_name:name,p_skill:skill,p_code:code});
-    if(ce) throw ce;
-    await afterLogin();
-  }catch(e){ authErr(mapAuthError(e)); btn.disabled=false; }
-}
-async function afterLogin(){
-  const {data:{session}} = await sb.auth.getSession();
-  if(!session) return renderAuth('login');
-  const {data,error} = await sb.from('staff').select('*').eq('auth_user_id',session.user.id).maybeSingle();
-  if(error) throw error;
-  if(!data){ S.claimId = (session.user.email||'').split('@')[0].toUpperCase(); return renderAuth('claim','尚未綁定人事資料,請填寫後送出'); }
-  S.me=data; S.view='main';
-  $('#app').innerHTML='<div class="center">載入中…</div>';
-  await refreshAll();
-}
-
-/* ============ 主畫面 ============ */
+/* ============ 畫面骨架 ============ */
 const ICON = {
   cal:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>',
-  swap:'<svg viewBox="0 0 24 24"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg>',
-  log:'<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>',
+  log:'<svg viewBox="0 0 24 24"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg>',
   me:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>'
 };
-function renderMain(){
-  if(S.view!=='main' || !S.me) return;
-  const body = S.page==='import' ? viewImport() : ({cal:viewCal,swap:viewSwap,log:viewLog,me:viewMe})[S.tab]();
-  const tabs = [['cal','月曆'],['swap','換班'],['log','紀錄'],['me','我']];
+function render(){
+  if(!D.profile){ return renderSetup(true); }
+  const body = S.page==='import' ? viewImport() : ({cal:viewCal,log:viewLog,me:viewMe})[S.tab]();
+  const tabs=[['cal','月曆'],['log','換班紀錄'],['me','設定']];
   $('#app').innerHTML = `
-  <div class="top"><div class="brand">換班系統</div><div class="who">${esc(S.me.name)}<br>${esc(S.me.employee_id)}</div></div>
+  <div class="top"><div class="brand">我的班表</div><div class="who">${esc(D.profile.name)}<br>${esc(D.profile.id)}</div></div>
   <main>${body}</main>
-  <nav class="tabs"><div class="in">${tabs.map(([k,l])=>`
-    <button class="tab ${S.tab===k&&!S.page?'on':''}" data-act="tab" data-tab="${k}">${ICON[k]}${l}${k==='swap'&&S.pendingIn?`<span class="badge">${S.pendingIn}</span>`:''}</button>`).join('')}</div></nav>`;
+  ${S.sel&&S.tab==='cal'&&!S.page?`<div class="floatbar"><span>已選 ${S.sel.size} 天</span><span class="row"><button class="btn ghost sm" style="color:#fff;border-color:#fff" data-act="selCancel">取消</button><button class="btn sm" data-act="selApply" ${S.sel.size?'':'disabled'}>新增特殊勤務</button></span></div>`:''}
+  <nav class="tabs"><div class="in">${tabs.map(([k,l])=>`<button class="tab ${S.tab===k&&!S.page?'on':''}" data-act="tab" data-tab="${k}">${ICON[k]}${l}</button>`).join('')}</div></nav>`;
 }
 
-/* ---- 月曆 ---- */
+/* ============ 個人資料(含戰力複選) ============ */
+function profileForm(first){
+  const s=S.setup;
+  return `<form class="card" data-form="profile" autocomplete="off">
+    <label class="f" for="p_id" style="margin-top:0">人事代號</label><input type="text" id="p_id" autocapitalize="characters" value="${esc(s.id)}">
+    <label class="f" for="p_name">姓名</label><input type="text" id="p_name" value="${esc(s.name)}">
+    <label class="f">戰力(可複選)</label>
+    <button type="button" class="select" data-act="pickSkills"><span>${s.skills.length?esc(SKILLS.filter(x=>s.skills.includes(x)).join(' / ')):'<span class="muted">點選選擇</span>'}</span><span>▾</span></button>
+    <div class="msg err" id="pMsg"></div>
+    <button class="btn block" style="margin-top:16px">${first?'開始使用':'儲存'}</button>
+  </form>`;
+}
+function renderSetup(first){
+  if(!S.setup) S.setup = D.profile ? {id:D.profile.id,name:D.profile.name,skills:[...D.profile.skills]} : {id:'',name:'',skills:[]};
+  $('#app').innerHTML = `<div class="auth"><h1>我的班表</h1>
+    <p class="muted">資料只存在你的手機,不會上傳,也不需要註冊。</p>${profileForm(true)}</div>`;
+}
+function skillSheet(){
+  openSheet(`<h2>選擇戰力</h2><p class="muted small">可複選</p>
+    <div class="chipgrid">${SKILLS.map(k=>`<button type="button" class="fchip ${S.setup.skills.includes(k)?'on':''}" data-act="skillToggle" data-s="${esc(k)}">${esc(k)}</button>`).join('')}</div>
+    <button class="btn block" data-act="skillDone">完成</button>`);
+}
+function submitProfile(){
+  const id=$('#p_id').value.trim().toUpperCase(), name=$('#p_name').value.trim();
+  const m=$('#pMsg'); const err=t=>{m.textContent=t;m.className='msg err show';};
+  if(!id) return err('請填人事代號'); if(!name) return err('請填姓名');
+  D.profile={id,name,skills:SKILLS.filter(k=>S.setup.skills.includes(k))};
+  if(!save()) return; S.setup=null; toast('已儲存'); render();
+}
+
+/* ============ 月曆 ============ */
 function monthGrid(k, cell){
   const [y,m]=k.split('-').map(Number); const first=new Date(y,m-1,1).getDay(), days=new Date(y,m,0).getDate(), today=todayStr();
   let h='<div class="grid">'+WD.map(w=>`<div class="wd">${w}</div>`).join('');
   for(let i=0;i<first;i++) h+='<div class="cell empty"></div>';
-  for(let d=1; d<=days; d++){ const ds=`${k}-${pad(d)}`; h+=cell(ds,d,ds===today); }
+  for(let d=1;d<=days;d++){ const ds=`${k}-${pad(d)}`; h+=cell(ds,d,ds===today); }
   return h+'</div>';
 }
-function chipHTML(code, types, timeStr){
-  return `<span class="chip" style="--c:${colorOf(code,types)}">${esc(code)}${timeStr?`<small>${esc(timeStr)}</small>`:''}</span>`;
-}
+const chipHTML = (code, types, start) => `<span class="chip" style="--c:${colorOf(code,types)}">${esc(code)}${start?`<small>${esc(start)}</small>`:''}</span>`;
 function viewCal(){
   const [y,m]=S.month.split('-').map(Number);
-  const have = S.monthLoaded===S.month;
-  const count = have ? S.myMonth.size : 0;
+  const count=Object.keys(D.shifts).filter(k=>k.startsWith(S.month)).length;
+  const duties=Object.entries(D.shifts).filter(([k,v])=>k.startsWith(S.month)&&(v.duty||v.note));
   return `
-  <div class="mhead"><button class="nav" data-act="monthPrev" aria-label="上個月">‹</button>
-    <div class="t">${y} 年 ${m} 月</div><button class="nav" data-act="monthNext" aria-label="下個月">›</button></div>
+  <div class="mhead"><button class="nav" data-act="monthPrev" aria-label="上個月">‹</button><div class="t">${y} 年 ${m} 月</div><button class="nav" data-act="monthNext" aria-label="下個月">›</button></div>
+  ${S.afterImport?`<div class="msg ok show" style="margin:0 0 10px"><b>已匯入。</b>下一步:對照班表,如果有固定的特殊勤務,按下方「標記特殊勤務」一次選多天。<br><button class="link" data-act="dismissAfter">我知道了</button></div>`:''}
+  ${S.sel?`<div class="msg warn show" style="margin:0 0 10px">請點選要加上特殊勤務的日子(可多選)</div>`:''}
   ${monthGrid(S.month,(ds,d,today)=>{
-    const s = have && S.myMonth.get(ds);
-    return `<button class="cell ${today?'today':''}" data-act="openDay" data-date="${ds}"><span class="dn">${d}</span>${s?chipHTML(s.shift_code,S.types,hhmm((S.types.get(s.shift_code)||{}).start_time)):''}</button>`;
+    const s=D.shifts[ds]; const picked=S.sel&&S.sel.has(ds);
+    const dim=S.sel&&!s?'dim':'';
+    return `<button class="cell ${today?'today':''} ${picked?'sel':''} ${dim}" data-act="cellTap" data-date="${ds}"><span class="dn">${d}</span>${s&&(s.duty||s.note)?`<span class="star">${s.duty?'★':'✎'}</span>`:''}${s?chipHTML(s.code,D.types,(D.types[s.code]||{}).start):''}</button>`;
   })}
-  <div class="legend"><span><i style="background:var(--c-early)"></i>早班</span><span><i style="background:var(--c-day)"></i>日班</span><span><i style="background:var(--c-eve)"></i>午班</span><span><i style="background:var(--c-night)"></i>晚/夜班</span></div>
-  ${have && !count ? `<div class="card empty-card"><p><b>這個月還沒有你的班表</b></p><p class="muted small">匯入後,同事就能看到你這天上什麼班</p><button class="btn" data-act="openImport">匯入班表</button></div>` :
-    `<p class="muted small" style="text-align:center">點日期可看當天每個人的班,並提出換班</p>`}
-  <div class="row spread" style="margin-top:6px"><button class="link" data-act="openImport">匯入班表</button><button class="link" data-act="reload">重新整理</button></div>`;
+  <div class="legend"><span><i style="background:var(--c-early)"></i>早班</span><span><i style="background:var(--c-day)"></i>日班</span><span><i style="background:var(--c-eve)"></i>午班</span><span><i style="background:var(--c-night)"></i>晚/夜班</span><span>★ 特殊勤務</span><span>✎ 備註</span></div>
+  ${!count?`<div class="card empty-card"><p><b>這個月還沒有班表</b></p><p class="muted small">用你自己的 AI 讀班表截圖,貼回來就好</p><button class="btn" data-act="openImport">匯入班表</button></div>`
+    :`<p class="muted small" style="text-align:center">點日期可看詳細、加備註或換班</p>`}
+  ${duties.length?`<div class="sec">本月特殊勤務/備註</div><div class="card">${duties.sort().map(([k,v])=>`<div class="log"><b>${fmtD(k)} ${esc(v.code)}</b> ${v.duty?'<span class="pill duty">★ 特殊勤務</span>':''}<div class="small" style="white-space:pre-wrap">${esc(v.note)}</div></div>`).join('')}</div>`:''}
+  <div class="row spread" style="margin-top:6px"><button class="link" data-act="openImport">匯入班表</button>${count&&!S.sel?'<button class="link" data-act="selStart">標記特殊勤務</button>':''}</div>`;
 }
 
-/* ---- 當天詳情 + 提出換班 ---- */
-function openSheet(html){ $('#sheet').innerHTML = `<div class="sheet-bg" data-act="closeSheet"></div><div class="sheet" role="dialog"><div class="grab"></div>${html}</div>`; document.body.style.overflow='hidden'; }
-function closeSheet(){ $('#sheet').innerHTML=''; document.body.style.overflow=''; S.day=null; }
-async function openDay(date){
-  S.day={date,rows:null,filter:'ALL'}; renderDay();
-  try{
-    const {data,error}=await sb.from('shifts').select('id,shift_code,employee_id').eq('work_date',date).limit(1000);
-    if(error) throw error;
-    if(!S.day||S.day.date!==date) return;
-    S.day.rows=data; renderDay();
-  }catch(e){ fail(e); closeSheet(); }
-}
+/* ============ 單日詳情 ============ */
+function openSheet(html){ $('#sheet').innerHTML=`<div class="sheet-bg" data-act="closeSheet"></div><div class="sheet" role="dialog"><div class="grab"></div>${html}</div>`; document.body.style.overflow='hidden'; }
+function closeSheet(){ $('#sheet').innerHTML=''; document.body.style.overflow=''; S.day=null; S.sw=null; }
+function showModal(html){ $('#modal').innerHTML=`<div class="modal-bg"><div class="modal" role="alertdialog">${html}</div></div>`; }
+function closeModal(){ $('#modal').innerHTML=''; }
 function renderDay(){
-  const d=S.day; if(!d) return;
-  const head = `<h2>${fmtD(d.date)}</h2>`;
-  if(!d.rows){ openSheet(head+'<div class="center">載入中…</div>'); return; }
-  const me=S.me.employee_id, past=d.date<todayStr();
-  const codes=[...new Set(d.rows.map(r=>r.shift_code))].sort((a,b)=>(hhmm((S.types.get(a)||{}).start_time)||'99').localeCompare(hhmm((S.types.get(b)||{}).start_time)||'99')||a.localeCompare(b));
-  const mine=d.rows.find(r=>r.employee_id===me);
-  const shown = d.filter==='ALL'?codes:codes.filter(c=>c===d.filter);
-  openSheet(`${head}
-  <p class="muted">共 ${d.rows.length} 人上班${mine?` · 你的班:<b>${esc(mine.shift_code)}</b> ${rangeOf(mine.shift_code)}`:' · 你這天沒有班'}</p>
-  <div class="chips"><button class="fchip ${d.filter==='ALL'?'on':''}" data-act="dayFilter" data-code="ALL">全部</button>
-    ${codes.map(c=>`<button class="fchip ${d.filter===c?'on':''}" data-act="dayFilter" data-code="${esc(c)}">${esc(c)} ${d.rows.filter(r=>r.shift_code===c).length}</button>`).join('')}</div>
-  ${shown.map(c=>{
-    const people=d.rows.filter(r=>r.shift_code===c).sort((a,b)=>nameOf(a.employee_id).localeCompare(nameOf(b.employee_id),'zh-Hant'));
-    return `<div class="grp" style="--c:${colorOf(c)}"><span class="bar"></span>${esc(c)} <small>${rangeOf(c)} · ${people.length} 人</small></div>
-    ${people.map(r=>{ const st=S.staff.get(r.employee_id)||{}; const isMe=r.employee_id===me;
-      return `<div class="person ${isMe?'me':''}"><div><span class="nm">${esc(st.name||r.employee_id)}</span> <span class="muted small">${esc(r.employee_id)}</span><br>
-        <span class="pill gray">戰力 ${esc(st.skill_level||'—')}</span>${isMe?' <span class="pill">我</span>':''}</div>
-        ${isMe||past?'':`<button class="btn sm" data-act="swapStart" data-id="${r.id}" data-emp="${esc(r.employee_id)}" data-code="${esc(r.shift_code)}">換班</button>`}</div>`; }).join('')}`;
-  }).join('') || '<p class="muted">這天沒有人登記班表</p>'}
-  <button class="btn ghost block" style="margin-top:16px" data-act="closeSheet">關閉</button>`);
+  const ds=S.day, s=D.shifts[ds];
+  const rel=D.swaps.filter(w=>w.status==='done'&&(w.d1===ds||w.d2===ds));
+  const typeOpts=sortedTypes().map(([c,t])=>`<option value="${esc(c)}" ${s&&s.code===c?'selected':''}>${esc(c)}  ${t.start}–${t.end}</option>`).join('');
+  openSheet(`<h2>${fmtD(ds)}</h2>
+  ${s?`<div class="bigshift" style="--c:${colorOf(s.code)}"><b>${esc(s.code)}</b><span>${esc(timeOf(s.code))}</span>${s.duty?'<span class="pill duty">★ 特殊勤務</span>':''}</div>`:'<p class="muted">這天沒有班(休假)</p>'}
+  ${s?`<div class="card flat">
+    <label class="sw"><input type="checkbox" id="dayDuty" ${s.duty?'checked':''}><span><b>這天有特殊勤務</b></span></label>
+    <label class="f" for="dayNote" style="margin-top:6px">備註(自由填寫,會顯示在這個班的詳細內容)</label>
+    <textarea id="dayNote" placeholder="例如:固定勤務內容、搭檔、交接注意事項…">${esc(s.note||'')}</textarea>
+    <button class="btn sm" style="margin-top:8px" data-act="saveDay">儲存</button></div>
+  <button class="btn block" data-act="swapStart">與同事換這個班</button>`:''}
+  ${rel.length?`<div class="sec">這天的換班紀錄</div>${rel.map(w=>`<div class="log small">${fmtAt(w.at)} · 與 <b>${esc(w.partner)}</b><br>換出 ${fmtD(w.d1)} ${esc(w.c1)} → 換入 ${fmtD(w.d2)} ${esc(w.c2)}</div>`).join('')}`:''}
+  <details style="margin-top:12px"><summary>修正這天的班別</summary>
+    <select id="dayFix"><option value="">休假 / 無班</option>${typeOpts}</select>
+    <p class="muted small">匯入錯誤時用。換班請用上方的「換班」,才會留下紀錄。</p>
+    <button class="btn ghost sm" data-act="fixDay">套用</button></details>
+  <button class="btn ghost block" style="margin-top:14px" data-act="closeSheet">關閉</button>`);
 }
-async function swapStart(btn){
-  const target={id:+btn.dataset.id, emp:btn.dataset.emp, code:btn.dataset.code, date:S.day.date};
-  S.swap=target;
-  openSheet('<h2>換班申請</h2><div class="center">載入你的班表…</div>');
-  try{
-    const {data,error}=await sb.from('shifts').select('id,work_date,shift_code').eq('employee_id',S.me.employee_id).gte('work_date',todayStr()).order('work_date').limit(120);
-    if(error) throw error;
-    S.swap.mine=data;
-    const same=data.find(r=>r.work_date===target.date);
-    openSheet(`<h2>換班申請</h2>
-    <p>你想換 <b>${esc(nameOf(target.emp))}</b> 的 <b>${fmtD(target.date)} ${esc(target.code)}</b> <span class="muted">${rangeOf(target.code)}</span></p>
-    <p class="muted">請選擇你要拿來交換的班:</p>
-    ${data.length?data.map(r=>`<label class="opt"><input type="radio" name="mine" value="${r.id}" ${same&&same.id===r.id?'checked':''}><span><b>${fmtD(r.work_date)}</b> ${esc(r.shift_code)} <span class="muted">${rangeOf(r.shift_code)}</span></span></label>`).join('')
-      :'<div class="msg warn show">你還沒有可交換的班,請先匯入班表</div>'}
-    <div class="msg err" id="swapMsg"></div>
-    <div class="row" style="margin-top:14px"><button class="btn" data-act="swapSend" ${data.length?'':'disabled'}>送出申請</button><button class="btn ghost" data-act="closeSheet">取消</button></div>
-    <p class="muted small">對方在「換班」頁按接受後,雙方班表會同時更改。</p>`);
-  }catch(e){ fail(e); closeSheet(); }
+function saveDay(){
+  const s=D.shifts[S.day]; if(!s) return;
+  s.duty=$('#dayDuty').checked; s.note=$('#dayNote').value.trim();
+  if(save()){ toast('已儲存'); render(); renderDay(); }
 }
-async function swapSend(){
-  const sel=document.querySelector('input[name=mine]:checked'); const box=$('#swapMsg');
-  const show=m=>{box.textContent=m;box.className='msg err show';};
-  if(!sel) return show('請選擇一個你的班');
-  const mine=S.swap.mine.find(r=>r.id===+sel.value);
-  if(mine.work_date!==S.swap.date && S.swap.mine.some(r=>r.work_date===S.swap.date)) return show(`你 ${fmtD(S.swap.date)} 已經有班了,換完會變成同一天兩個班`);
-  try{
-    const {error}=await sb.rpc('request_swap',{p_a:mine.id,p_b:S.swap.id}); if(error) throw error;
-    closeSheet(); toast('已送出申請,等對方回覆'); await loadSwaps(); renderMain();
-  }catch(e){ show(e.message||String(e)); }
+function fixDay(){
+  const v=$('#dayFix').value, ds=S.day, s=D.shifts[ds];
+  if(!v){ if(s){ if(!confirm('清除這天的班?')) return; delete D.shifts[ds]; } }
+  else D.shifts[ds]={code:v,duty:!!(s&&s.duty),note:(s&&s.note)||''};
+  if(save()){ toast('已更新'); render(); renderDay(); }
 }
 
-/* ---- 換班(收件匣) ---- */
-const STATUS = {pending:['待回覆','wait'],accepted:['已完成','ok'],rejected:['已拒絕','no'],cancelled:['已取消','gray']};
-function reqText(r){
-  const me=S.me.employee_id, mineIsA=r.requester===me;
-  const other=nameOf(mineIsA?r.target:r.requester);
-  return mineIsA
-    ? `我拿 <b>${fmtD(r.a_date)} ${esc(r.a_code)}</b> 換 <b>${esc(other)}</b> 的 <b>${fmtD(r.b_date)} ${esc(r.b_code)}</b>`
-    : `<b>${esc(other)}</b> 想拿 <b>${fmtD(r.a_date)} ${esc(r.a_code)}</b> 換你的 <b>${fmtD(r.b_date)} ${esc(r.b_code)}</b>`;
+/* ============ 換班 ============ */
+function swapStart(){
+  const s=D.shifts[S.day];
+  S.sw={d1:S.day,c1:s.code,partner:'',d2:S.day,code:'',note:'',newCode:'',newStart:'',newEnd:'',step:1};
+  renderSwap();
 }
-function reqItem(r){
-  const me=S.me.employee_id; const [label,cls]=STATUS[r.status]||[r.status,'gray'];
-  const actions = r.status!=='pending' ? '' : r.target===me
-    ? `<div class="row" style="margin-top:8px"><button class="btn sm" data-act="respond" data-id="${r.id}" data-ok="1">接受</button><button class="btn sm danger" data-act="respond" data-id="${r.id}" data-ok="0">拒絕</button></div>`
-    : `<div class="row" style="margin-top:8px"><button class="btn sm ghost" data-act="cancelReq" data-id="${r.id}">取消申請</button></div>`;
-  return `<div class="req"><div class="row spread"><span class="pill ${cls}">${label}</span><span class="muted small">${fmtTime(r.created_at)}</span></div><p style="margin:8px 0 0">${reqText(r)}</p>${actions}</div>`;
+function typeSelect(sel){
+  return `<select id="sw_code"><option value="">請選擇班別</option>${sortedTypes().map(([c,t])=>`<option value="${esc(c)}" ${sel===c?'selected':''}>${esc(c)}  ${t.start}–${t.end}</option>`).join('')}<option value="__new__" ${sel==='__new__'?'selected':''}>＋ 新增其他班別…</option></select>`;
 }
-function viewSwap(){
-  const me=S.me.employee_id;
-  const inc=S.reqs.filter(r=>r.target===me&&r.status==='pending');
-  const out=S.reqs.filter(r=>r.requester===me&&r.status==='pending');
-  const done=S.reqs.filter(r=>r.status!=='pending');
-  return `<h2>換班</h2>
-  <div class="sec">待我回覆(${inc.length})</div>
-  <div class="card">${inc.length?inc.map(reqItem).join(''):'<span class="muted">目前沒有人向你申請</span>'}</div>
-  <div class="sec">我送出的(${out.length})</div>
-  <div class="card">${out.length?out.map(reqItem).join(''):'<span class="muted">沒有等待中的申請</span>'}</div>
-  <div class="sec">歷史</div>
-  <div class="card">${done.length?done.map(reqItem).join(''):'<span class="muted">還沒有紀錄</span>'}</div>
-  <div class="center" style="padding:6px"><button class="link" data-act="reload">重新整理</button></div>`;
+function renderSwap(){
+  const w=S.sw; const m=D.shifts[w.d1];
+  if(w.step===1){
+    openSheet(`<h2>換班</h2>
+    <div class="bigshift" style="--c:${colorOf(m.code)}"><div><div class="small muted">我要換出的班</div><b>${fmtD(w.d1)} ${esc(m.code)}</b> <span>${esc(timeOf(m.code))}</span></div></div>
+    <label class="f" for="sw_partner">換班對象(人事代號 / 姓名 / LINE 擇一即可)</label>
+    <input type="text" id="sw_partner" value="${esc(w.partner)}" autocomplete="off">
+    <label class="f">對方給我的班</label>
+    <div class="row" style="flex-wrap:nowrap"><div style="flex:1.2"><div class="small muted">日期</div><input type="date" id="sw_d2" value="${esc(w.d2)}"></div>
+    <div style="flex:1.4"><div class="small muted">班別</div>${typeSelect(w.code)}</div></div>
+    ${w.code==='__new__'?`<div class="card flat" style="margin-top:10px"><div class="small muted">新增班別</div>
+      <input type="text" id="sw_newCode" placeholder="班別代碼,例如 Hv" value="${esc(w.newCode)}" style="margin:6px 0">
+      <div class="row" style="flex-wrap:nowrap"><input type="time" id="sw_newStart" value="${esc(w.newStart)}"><span>–</span><input type="time" id="sw_newEnd" value="${esc(w.newEnd)}"></div></div>`:''}
+    <label class="f" for="sw_note">對方這個班的特殊勤務 / 備註(選填,會跟著這個班記在你的班表)</label>
+    <textarea id="sw_note" style="min-height:70px">${esc(w.note)}</textarea>
+    <div class="msg err" id="swMsg"></div>
+    <div class="row" style="margin-top:14px"><button class="btn" data-act="swapNext">下一步:確認明細</button><button class="btn ghost" data-act="closeSheet">取消</button></div>`);
+  } else {
+    const cmp=swapCompare(w);
+    openSheet(`<h2>確認換班</h2>
+    <p class="muted small">請核對雙方的日期、班別與時間。確認後會立刻更新你的班表並留下紀錄。</p>
+    <div class="cmp">
+      <div class="person"><h4>你(${esc(D.profile.name)} ${esc(D.profile.id)})</h4>
+        <div class="ln"><span class="tag out">換出</span><span><b>${fmtD(w.d1)} ${esc(w.c1)}</b> ${esc(timeOf(w.c1))}</span></div>
+        <div class="ln"><span class="tag in">換入</span><span><b>${fmtD(w.d2)} ${esc(cmp.code)}</b> ${esc(cmp.time)}</span></div></div>
+      <div class="person"><h4>對方(${esc(w.partner.trim())})</h4>
+        <div class="ln"><span class="tag out">換出</span><span><b>${fmtD(w.d2)} ${esc(cmp.code)}</b> ${esc(cmp.time)}</span></div>
+        <div class="ln"><span class="tag in">換入</span><span><b>${fmtD(w.d1)} ${esc(w.c1)}</b> ${esc(timeOf(w.c1))}</span></div></div>
+    </div>
+    <div class="card flat"><div class="small muted">換完後你的班表</div>
+      ${w.d1===w.d2?`<div>${fmtD(w.d1)}:<b>${esc(cmp.code)}</b> ${esc(cmp.time)}</div>`:`<div>${fmtD(w.d1)}:<b>休假</b></div><div>${fmtD(w.d2)}:<b>${esc(cmp.code)}</b> ${esc(cmp.time)}</div>`}</div>
+    ${(D.shifts[w.d1].duty||D.shifts[w.d1].note)?`<div class="warnbox">${D.shifts[w.d1].duty?'★ 這個班有特殊勤務,會一併交給對方:\n':'✎ 這個班的備註,會一併交給對方:\n'}${esc(D.shifts[w.d1].note||'(未填備註)')}</div>`:''}
+    ${w.note.trim()?`<div class="warnbox">對方的班備註:\n${esc(w.note.trim())}</div>`:''}
+    <div class="row" style="margin-top:12px"><button class="btn" data-act="swapConfirm">確認換班</button><button class="btn ghost" data-act="swapBack">上一步</button></div>
+    <button class="link" data-act="copySwap">複製明細(貼給對方 / LINE)</button>`);
+  }
 }
-async function respond(id,ok){
-  if(ok && !confirm('確定接受?雙方班表會立刻更換。')) return;
-  try{
-    const {error}=await sb.rpc('respond_swap',{p_id:id,p_accept:ok}); if(error) throw error;
-    toast(ok?'已換班,班表已更新':'已拒絕'); await Promise.all([loadSwaps(),loadMonth(),loadLogs()]); renderMain();
-  }catch(e){ fail(e); await loadSwaps().catch(()=>{}); renderMain(); }
+function swapCompare(w){
+  const code = w.code==='__new__' ? w.newCode.trim() : w.code;
+  const time = w.code==='__new__' ? `${w.newStart}–${w.newEnd}` : timeOf(code);
+  return {code,time};
 }
-async function cancelReq(id){
-  try{ const {error}=await sb.rpc('cancel_swap',{p_id:id}); if(error) throw error; toast('已取消'); await loadSwaps(); renderMain(); }catch(e){ fail(e); }
+function swapNext(){
+  const w=S.sw, m=D.shifts[w.d1]; const box=$('#swMsg'); const err=t=>{box.textContent=t;box.className='msg err show';};
+  w.partner=$('#sw_partner').value; w.d2=$('#sw_d2').value||w.d1; w.code=$('#sw_code').value; w.note=$('#sw_note').value;
+  if(w.code==='__new__'){ w.newCode=$('#sw_newCode').value; w.newStart=$('#sw_newStart').value; w.newEnd=$('#sw_newEnd').value; }
+  if(!w.partner.trim()) return err('請輸入換班對象');
+  if(!w.code) return err('請選擇對方給你的班別');
+  const c=swapCompare(w);
+  if(w.code==='__new__'){ if(!c.code) return err('請輸入新班別代碼'); if(!w.newStart||!w.newEnd) return err('請輸入新班別的開始與結束時間'); }
+  if(w.d2===w.d1 && c.code===m.code) return err('兩邊是同一個班,不需要換');
+  if(w.d2!==w.d1 && D.shifts[w.d2]) return err(`你 ${fmtD(w.d2)} 已經有班(${D.shifts[w.d2].code}),不能再換入一個班`);
+  if(isOff(c.code)) return err('這是休假類班別(含 X/Y/Z),請確認班別');
+  const warns=[];
+  if(m.duty||m.note) warns.push(`你要換出的 ${fmtD(w.d1)} ${m.code} ${m.duty?'有特殊勤務':'有備註'}:\n${m.note||'(未填備註)'}\n→ 需要一併交接給對方。`);
+  if(w.note.trim()) warns.push(`對方的 ${fmtD(w.d2)} ${c.code} 有特殊勤務/備註:\n${w.note.trim()}\n→ 換入後你需要接手。`);
+  const go=()=>{ w.step=2; renderSwap(); };
+  if(warns.length){
+    S.pendingGo=go;
+    showModal(`<h3>⚠ 這個班有特殊勤務</h3>${warns.map(t=>`<div class="warnbox">${esc(t)}</div>`).join('')}
+      <p><b>請注意雙方戰力是否符合這個班的需求。</b><br><span class="muted small">你的戰力:${esc(skillText())}</span></p>
+      <button class="btn block" data-act="modalGo">我知道了,繼續</button><button class="link" style="width:100%" data-act="modalCancel">返回修改</button>`);
+  } else go();
+}
+function swapText(w, cmp){
+  const m=D.profile;
+  return `【換班明細】\n${m.name}(${m.id}) ⇄ ${w.partner.trim()}\n\n我換出:${fmtD(w.d1)} ${w.c1} ${timeOf(w.c1)}\n我換入:${fmtD(w.d2)} ${cmp.code} ${cmp.time}\n\n對方換出:${fmtD(w.d2)} ${cmp.code} ${cmp.time}\n對方換入:${fmtD(w.d1)} ${w.c1} ${timeOf(w.c1)}`
+    + (w.note1?`\n\n特殊勤務/備註(隨 ${w.c1} 交接):${w.note1}`:'') + (w.note.trim()?`\n\n特殊勤務/備註(隨 ${cmp.code}):${w.note.trim()}`:'');
+}
+function swapConfirm(){
+  const w=S.sw, cmp=swapCompare(w); const mine=D.shifts[w.d1];
+  if(!mine) return toast('這天的班已不存在',true);
+  if(w.code==='__new__') D.types[cmp.code]={start:w.newStart,end:w.newEnd};
+  const before={}; before[w.d1]=JSON.parse(JSON.stringify(D.shifts[w.d1]||null)); before[w.d2]=JSON.parse(JSON.stringify(D.shifts[w.d2]||null));
+  const incoming={code:cmp.code,duty:!!w.note.trim(),note:w.note.trim()};
+  if(w.d1===w.d2) D.shifts[w.d1]=incoming; else { delete D.shifts[w.d1]; D.shifts[w.d2]=incoming; }
+  const entry={id:Date.now().toString(36),at:new Date().toISOString(),partner:w.partner.trim(),d1:w.d1,c1:mine.code,t1:timeOf(mine.code),d2:w.d2,c2:cmp.code,t2:cmp.time,
+    note1:mine.note||'',duty1:!!mine.duty,note2:w.note.trim(),before,status:'done'};
+  D.swaps.push(entry);
+  if(!save()) return;
+  closeSheet(); toast('已換班,班表已更新'); S.month=w.d2.slice(0,7)===S.month?S.month:S.month; render();
 }
 
-/* ---- 紀錄 ---- */
-function monthLogs(){
-  const k=S.logMonth;
-  return S.logs.filter(r=>(r.a_gave_date||'').startsWith(k)||(r.b_gave_date||'').startsWith(k)).sort((a,b)=>a.swapped_at.localeCompare(b.swapped_at));
-}
-function logParts(r){
-  const me=S.me.employee_id, iA=r.a_emp===me;
-  return {other:iA?r.b_emp:r.a_emp, gaveD:iA?r.a_gave_date:r.b_gave_date, gaveC:iA?r.a_gave_code:r.b_gave_code, gotD:iA?r.b_gave_date:r.a_gave_date, gotC:iA?r.b_gave_code:r.a_gave_code};
-}
+/* ============ 換班紀錄 ============ */
+const monthSwaps = () => D.swaps.filter(w=>w.d1.startsWith(S.logMonth)||w.d2.startsWith(S.logMonth)).sort((a,b)=>a.at.localeCompare(b.at));
 function viewLog(){
-  const [y,m]=S.logMonth.split('-').map(Number); const list=monthLogs();
+  const [y,m]=S.logMonth.split('-').map(Number); const list=monthSwaps();
+  const lastDone=[...D.swaps].reverse().find(w=>w.status==='done');
   return `<h2>換班紀錄</h2>
   <div class="mhead"><button class="nav" data-act="logPrev">‹</button><div class="t">${y} 年 ${m} 月</div><button class="nav" data-act="logNext">›</button></div>
-  <p class="muted small">依「班的日期」落在該月份的換班,依換班時間由早到晚排列。連續換班(A→B→C)每一步都會各自留一筆。</p>
-  <div class="card">${list.length?list.map(r=>{const p=logParts(r);return `<div class="req"><div class="muted small">${fmtTime(r.swapped_at)}</div>
-    <p style="margin:4px 0 0">與 <b>${esc(nameOf(p.other))}</b> <span class="muted small">${esc(p.other)}</span></p>
-    <p style="margin:2px 0 0">換出 <b>${fmtD(p.gaveD)} ${esc(p.gaveC)}</b> → 換入 <b>${fmtD(p.gotD)} ${esc(p.gotC)}</b></p></div>`;}).join(''):'<span class="muted">這個月沒有換班紀錄</span>'}</div>
+  <p class="muted small">依換班時間由早到晚排列,連續換班(A→B→C)每一步都會各留一筆。</p>
+  <div class="card">${list.length?list.map((w,i)=>`<div class="log ${w.status==='undone'?'undone':''}">
+    <div class="row spread"><b>第 ${i+1} 筆 · ${fmtAt(w.at)}</b>${w.status==='undone'?`<span class="pill no">已復原 ${fmtAt(w.undoneAt)}</span>`:'<span class="pill ok">已完成</span>'}</div>
+    <p style="margin:6px 0 0">與 <b>${esc(w.partner)}</b></p>
+    <p style="margin:2px 0 0">換出 <b>${fmtD(w.d1)} ${esc(w.c1)}</b> <span class="muted small">${esc(w.t1)}</span></p>
+    <p style="margin:2px 0 0">換入 <b>${fmtD(w.d2)} ${esc(w.c2)}</b> <span class="muted small">${esc(w.t2)}</span></p>
+    ${w.note1?`<p class="small" style="margin:4px 0 0;white-space:pre-wrap">交出的備註:${esc(w.note1)}</p>`:''}${w.note2?`<p class="small" style="margin:4px 0 0;white-space:pre-wrap">換入的備註:${esc(w.note2)}</p>`:''}
+    <div class="row" style="margin-top:6px"><button class="link" data-act="copyLog" data-id="${w.id}">複製明細</button>${lastDone&&lastDone.id===w.id?`<button class="link" style="color:var(--danger)" data-act="undoSwap" data-id="${w.id}">復原這筆</button>`:''}</div></div>`).join(''):'<span class="muted">這個月沒有換班紀錄</span>'}</div>
   <button class="btn block" data-act="exportCsv" ${list.length?'':'disabled'}>匯出 ${m} 月紀錄(CSV)</button>`;
 }
+function copyLog(id){ const w=D.swaps.find(x=>x.id===id); const cmp={code:w.c2,time:w.t2}; copyText(swapText({d1:w.d1,c1:w.c1,d2:w.d2,partner:w.partner,note:w.note2},cmp).replace(/\n\n特殊勤務\/備註\(隨 [^)]*\):[^\n]*$/,'')).then(ok=>toast(ok?'已複製':'複製失敗',!ok)); }
+function undoSwap(id){
+  const w=D.swaps.find(x=>x.id===id); if(!w) return;
+  if(!confirm(`復原這筆換班?\n班表會回到換班前的狀態(${fmtD(w.d1)} ${w.c1})。`)) return;
+  Object.entries(w.before).forEach(([ds,v])=>{ if(v) D.shifts[ds]=v; else delete D.shifts[ds]; });
+  w.status='undone'; w.undoneAt=new Date().toISOString();
+  if(save()){ toast('已復原'); render(); }
+}
 function exportCsv(){
-  const rows=[['換班時間','對象姓名','對象人事代號','我換出日期','我換出班別','我換入日期','我換入班別']];
-  monthLogs().forEach(r=>{const p=logParts(r); rows.push([fmtTime(r.swapped_at),nameOf(p.other),p.other,p.gaveD,p.gaveC,p.gotD,p.gotC]);});
-  const csv='﻿'+rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');
-  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
-  a.download=`換班紀錄_${S.me.employee_id}_${S.logMonth}.csv`; document.body.appendChild(a); a.click();
-  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+  const rows=[['序號','換班時間','對象','我換出日期','我換出班別','我換出時間','我換入日期','我換入班別','我換入時間','交出的備註','換入的備註','狀態']];
+  monthSwaps().forEach((w,i)=>rows.push([i+1,fmtAt(w.at),w.partner,w.d1,w.c1,w.t1,w.d2,w.c2,w.t2,w.note1,w.note2,w.status==='undone'?'已復原':'已完成']));
+  download(`換班紀錄_${D.profile.id}_${S.logMonth}.csv`,'﻿'+rows.map(r=>r.map(c=>`"${String(c??'').replace(/"/g,'""')}"`).join(',')).join('\r\n'),'text/csv;charset=utf-8');
 }
 
-/* ---- 我 ---- */
+/* ============ 設定 ============ */
 function viewMe(){
-  return `<h2>我的資料</h2>
-  <div class="card">
-    <label class="f" style="margin-top:0">人事代號</label><div><b>${esc(S.me.employee_id)}</b></div>
-    <label class="f" for="m_name">姓名</label><input type="text" id="m_name" value="${esc(S.me.name)}">
-    <label class="f" for="m_skill">戰力</label><input type="text" id="m_skill" value="${esc(S.me.skill_level||'')}">
-    <button class="btn block" style="margin-top:14px" data-act="saveProfile">儲存</button>
-  </div>
-  <div class="card"><b>匯入班表</b><p class="muted small">每月班表出來後,匯入你自己的班。</p><button class="btn ghost" data-act="openImport">開始匯入</button></div>
-  <button class="btn danger block" data-act="logout">登出</button>
-  <p class="muted small center" style="padding:14px 0">提示:用 Safari 開啟後,點分享 → 加入主畫面,就能像 App 一樣使用。</p>`;
+  if(!S.setup) S.setup={id:D.profile.id,name:D.profile.name,skills:[...D.profile.skills]};
+  return `<h2>設定</h2>${profileForm(false)}
+  <div class="card"><b>備份與還原</b>
+    <p class="muted small">資料只存在這支手機的瀏覽器裡。換手機、清除瀏覽資料前,請先備份。建議先「加入主畫面」再使用。</p>
+    <div class="row"><button class="btn ghost sm" data-act="backup">匯出備份檔</button>
+    <label class="btn ghost sm" for="restorePick" style="margin:0">還原備份</label><input type="file" id="restorePick" accept=".json,application/json" hidden></div></div>
+  <div class="card"><b>匯入班表</b><p class="muted small">每月班表出來後匯入。</p><button class="btn ghost sm" data-act="openImport">開始匯入</button></div>
+  <button class="btn danger block" data-act="wipe">清除全部資料</button>
+  <p class="muted small center">Safari 開啟後,點分享 → 加入主畫面,就能像 App 一樣使用。</p>`;
 }
-async function saveProfile(){
-  const name=$('#m_name').value.trim(), skill=$('#m_skill').value.trim();
-  if(!name) return toast('姓名不能空白',true);
-  try{ const {error}=await sb.rpc('update_my_profile',{p_name:name,p_skill:skill}); if(error) throw error;
-    S.me.name=name; S.me.skill_level=skill; await loadRefs(); toast('已儲存'); renderMain(); }catch(e){ fail(e); }
+function backup(){ download(`班表備份_${todayStr()}.json`, JSON.stringify(D,null,1), 'application/json'); toast('已匯出備份檔,請存到「檔案」或 iCloud'); }
+function restore(file){
+  const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d||d.v!==1||typeof d.shifts!=='object'||!Array.isArray(d.swaps)) throw new Error('這不是有效的備份檔');
+      if(!confirm('還原會覆蓋目前這支手機上的所有資料,確定?')) return; D=Object.assign(blank(),d); if(save()){ S.setup=null; toast('已還原'); render(); } }catch(e){ fail(e); } };
+  r.readAsText(file);
 }
 
 /* ============ 匯入班表 ============ */
 function parseSchedule(raw){
-  const out={month:null,types:new Map(),shifts:[],off:0,errors:[],warns:[]};
-  const seen=new Set(); let sec=null;
+  const out={month:null,types:{},shifts:[],off:0,errors:[],warns:[]}; const seen=new Set(); let sec=null;
   const lines=String(raw).replace(/[｜│¦]/g,'|').replace(/：/g,':').replace(/[–—~～]/g,'-').split(/\r?\n/);
-  const normTime=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec((t||'').trim()); return m&&+m[1]<=24&&+m[2]<60?`${pad(+m[1]%24)}:${m[2]}`:null;};
+  const nt=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec((t||'').trim()); return m&&+m[1]<=24&&+m[2]<60?`${pad(+m[1]%24)}:${m[2]}`:null;};
   for(let ln of lines){
-    ln=ln.trim().replace(/^[-*•]\s+/,''); if(!ln||/^```/.test(ln)) continue;
-    let m;
+    ln=ln.trim().replace(/^[-*•]\s+/,''); if(!ln||/^```/.test(ln)) continue; let m;
     if((m=ln.match(/^#\s*MONTH\s*:?\s*(\d{4})\s*-\s*(\d{1,2})/i))){ out.month=`${m[1]}-${pad(+m[2])}`; sec=null; continue; }
-    if(/^#\s*TYPES/i.test(ln)){ sec='t'; continue; }
-    if(/^#\s*SHIFTS/i.test(ln)){ sec='s'; continue; }
-    if(ln.startsWith('#')) continue;
+    if(/^#\s*TYPES/i.test(ln)){ sec='t'; continue; } if(/^#\s*SHIFTS/i.test(ln)){ sec='s'; continue; } if(ln.startsWith('#')) continue;
     const p=ln.split('|').map(x=>x.trim());
     if(sec==='t'){
-      if(p[0]==='代碼'||p.length<3) { if(p[0]!=='代碼') out.warns.push(`略過無法解讀的班別行:${ln}`); continue; }
-      const st=normTime(p[1]), en=normTime(p[2]);
-      if(!st||!en){ out.errors.push(`班別 ${p[0]} 的時間格式不對:${p[1]}|${p[2]}`); continue; }
-      if(!isOff(p[0])) out.types.set(p[0],{code:p[0],start:st,end:en});
+      if(p[0]==='代碼') continue; if(p.length<3){ out.warns.push(`略過無法解讀的班別行:${ln}`); continue; }
+      const st=nt(p[1]), en=nt(p[2]); if(!st||!en){ out.errors.push(`班別 ${p[0]} 的時間格式不對:${p[1]}|${p[2]}`); continue; }
+      if(!isOff(p[0])) out.types[p[0]]={start:st,end:en};
     } else if(sec==='s'){
-      if(p[0]==='日期'||p.length<2) { if(p[0]!=='日期') out.warns.push(`略過無法解讀的行:${ln}`); continue; }
-      const dm=/^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(p[0]);
-      if(!dm){ out.errors.push(`日期格式不對:${p[0]}`); continue; }
-      const ds=`${dm[1]}-${pad(+dm[2])}-${pad(+dm[3])}`; const dt=new Date(+dm[1],+dm[2]-1,+dm[3]);
-      if(dt.getMonth()!==+dm[2]-1){ out.errors.push(`不存在的日期:${ds}`); continue; }
-      const code=p[1];
-      if(!code||code==='?'){ out.errors.push(`${ds} 的班別 AI 看不清楚,請對照截圖手動補上`); continue; }
-      if(isOff(code)){ out.off++; continue; }
-      if(seen.has(ds)){ out.errors.push(`${ds} 出現兩次`); continue; }
+      if(p[0]==='日期') continue; if(p.length<2){ out.warns.push(`略過無法解讀的行:${ln}`); continue; }
+      const dm=/^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(p[0]); if(!dm){ out.errors.push(`日期格式不對:${p[0]}`); continue; }
+      const ds=`${dm[1]}-${pad(+dm[2])}-${pad(+dm[3])}`; if(new Date(+dm[1],+dm[2]-1,+dm[3]).getMonth()!==+dm[2]-1){ out.errors.push(`不存在的日期:${ds}`); continue; }
+      const code=p[1]; if(!code||code==='?'){ out.errors.push(`${ds} 的班別 AI 看不清楚,請對照截圖手動補上`); continue; }
+      if(isOff(code)){ out.off++; continue; } if(seen.has(ds)){ out.errors.push(`${ds} 出現兩次`); continue; }
       seen.add(ds); out.shifts.push({date:ds,code});
     }
   }
   if(!out.shifts.length && !out.errors.length) out.errors.push('沒有解析到任何上班日,請確認貼上的是 AI 的完整輸出');
   if(!out.month && out.shifts.length) out.month=out.shifts[0].date.slice(0,7);
-  if(!out.month && !out.errors.length) out.errors.push('找不到 #MONTH 月份');
-  out.shifts.forEach(s=>{
-    if(out.month && !s.date.startsWith(out.month)) out.errors.push(`${s.date} 不在 ${out.month} 內`);
-    if(!out.types.has(s.code) && !(S.types.has(s.code))) out.errors.push(`班別 ${s.code} 沒有時間資料(#TYPES 缺少)`);
-  });
-  out.errors=[...new Set(out.errors)];
-  out.shifts.sort((a,b)=>a.date.localeCompare(b.date));
-  return out;
+  out.shifts.forEach(s=>{ if(out.month&&!s.date.startsWith(out.month)) out.errors.push(`${s.date} 不在 ${out.month} 內`); if(!(s.code in out.types)) out.errors.push(`班別 ${s.code} 沒有時間資料(#TYPES 缺少)`); });
+  out.errors=[...new Set(out.errors)]; out.shifts.sort((a,b)=>a.date.localeCompare(b.date)); return out;
 }
 function viewImport(){
-  const I=S.imp, show=I.img||I.revealed;
-  return `
-  <div><button class="link" data-act="closeImport">‹ 返回</button></div>
-  <h2>匯入我的班表</h2>
-  <p class="muted">每位同事匯入自己的班表。辨識交給你自己的 AI(ChatGPT、Claude、Gemini 皆可),本系統不用上傳圖片。</p>
+  const I=S.imp;
+  return `<div><button class="link" data-act="closeImport">‹ 返回</button></div>
+  <h2>匯入班表</h2>
+  <p class="muted">辨識交給你自己的 AI(ChatGPT、Claude、Gemini 皆可),這裡不需要上傳截圖。</p>
 
-  <section class="card step"><h3><b>1</b>選擇班表截圖</h3>
-    <p class="muted small">請用「我的月班表」頁面的截圖。圖片只在你的手機上預覽,不會傳到本系統。</p>
-    <input type="file" id="imgPick" accept="image/*" hidden>
-    <label for="imgPick" class="btn ${I.img?'ghost':''}">${I.img?'換一張截圖':'選擇截圖'}</label>
-    ${I.img?`<img class="thumb" src="${I.img}" alt="班表截圖預覽"><p class="small">已選:${esc(I.imgName)}</p>`:''}
-    ${show?'':`<p class="small" style="margin-top:12px"><button class="link" data-act="skipImg">我已經有 AI 的結果了,直接貼上 ›</button></p>`}
-  </section>
-
-  ${show?`
-  <section class="card step"><h3><b>2</b>複製提示詞</h3>
-    <p class="small muted">這段指令會讓 AI 輸出系統看得懂的格式(已設定:含 X、Y、Z 的班別視為休假,自動略過)。</p>
+  <section class="card step"><h3><b class="n">1</b>複製提示詞</h3>
     <button class="btn block" data-act="copyPrompt" id="copyBtn">${I.copied?'已複製 ✓ 再複製一次':'複製提示詞'}</button>
-    <details><summary>查看提示詞內容</summary><textarea readonly style="min-height:260px" id="promptBox">${esc(PROMPT)}</textarea></details>
-  </section>
+    <details><summary>查看提示詞內容</summary><textarea readonly class="mono" style="min-height:260px" id="promptBox">${esc(PROMPT)}</textarea></details></section>
 
-  <section class="card step"><h3><b>3</b>打開你的 AI</h3>
-    <ol>
-      <li>點下方連結打開 AI(會開新分頁/App)</li>
-      <li>在對話框<b>貼上</b>剛複製的提示詞</li>
-      <li>再<b>附上同一張班表截圖</b>,送出</li>
-      <li>等它回覆後,按它的「複製」鈕,複製整段結果,再回到這裡</li>
-    </ol>
-    <div class="row">${AI_LINKS.map(a=>`<a class="btn ghost sm" href="${a.url}" target="_blank" rel="noopener">${a.name} ↗</a>`).join('')}</div>
-  </section>
+  <section class="card step"><h3><b class="n">2</b>打開 AI,上傳截圖、貼上提示詞</h3>
+    <ol><li>點下方連結打開 AI</li><li><b>上傳</b>你的月班表截圖</li><li><b>貼上</b>剛複製的提示詞,送出</li><li>等 AI 回覆後,按它的「複製」鈕,複製整段結果</li><li>回到這個頁面,貼在下一步</li></ol>
+    <div class="row">${AI_LINKS.map(a=>`<a class="btn ghost sm" href="${a.url}" target="_blank" rel="noopener">${a.name} ↗</a>`).join('')}</div></section>
 
-  <section class="card step"><h3><b>4</b>貼上 AI 的結果</h3>
-    <textarea id="impText" placeholder="#MONTH 2026-11&#10;#TYPES&#10;…&#10;#SHIFTS&#10;…">${esc(I.text)}</textarea>
-    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="pasteClip">從剪貼簿貼上</button><button class="btn" data-act="previewImp">預覽</button></div>
-    ${I.parsed?impPreview(I.parsed):''}
-  </section>`:''}`;
+  <section class="card step"><h3><b class="n">3</b>貼上 AI 的結果</h3>
+    <textarea id="impText" class="mono" placeholder="#MONTH 2026-11&#10;#TYPES&#10;…&#10;#SHIFTS&#10;…">${esc(I.text)}</textarea>
+    <div class="row" style="margin-top:10px"><button class="btn ghost" data-act="pasteClip">從剪貼簿貼上</button><button class="btn" data-act="previewImp">預覽月曆</button></div>
+    ${I.parsed?impPreview(I.parsed):''}</section>`;
 }
 function impPreview(P){
-  const ok=!P.errors.length && P.shifts.length;
-  const map=new Map(P.shifts.map(s=>[s.date,s.code])); const tmap=P.types;
-  const [y,m]=(P.month||'').split('-').map(Number);
-  return `<div style="margin-top:16px">
-    ${P.errors.length?`<div class="msg err show"><b>需要修正:</b><ul style="margin:6px 0 0;padding-left:18px">${P.errors.map(e=>`<li>${esc(e)}</li>`).join('')}</ul><div style="margin-top:6px">可直接修改上方文字後再按「預覽」</div></div>`:''}
+  const ok=!P.errors.length && P.shifts.length; const map=new Map(P.shifts.map(s=>[s.date,s.code])); const [y,m]=(P.month||'').split('-').map(Number);
+  return `<div style="margin-top:16px" id="impPrev">
+    ${P.errors.length?`<div class="msg err show"><b>需要修正:</b><ul style="margin:6px 0 0;padding-left:18px">${P.errors.map(e=>`<li>${esc(e)}</li>`).join('')}</ul><div style="margin-top:6px">可直接修改上方文字後再按「預覽月曆」</div></div>`:''}
     ${P.warns.length?`<div class="msg warn show"><ul style="margin:0;padding-left:18px">${P.warns.map(e=>`<li>${esc(e)}</li>`).join('')}</ul></div>`:''}
     ${P.month&&P.shifts.length?`<p style="margin-top:14px"><b>${y} 年 ${m} 月</b> · 上班 <b>${P.shifts.length}</b> 天 · 略過休假 ${P.off} 天</p>
-    ${monthGrid(P.month,(ds,d)=>{const c=map.get(ds);return `<div class="cell static"><span class="dn">${d}</span>${c?chipHTML(c,tmap.size?tmap:S.types,hhmm((tmap.get(c)||S.types.get(c)||{}).start||(S.types.get(c)||{}).start_time)):''}</div>`;})}
-    <table style="margin-top:10px"><tr><th>班別</th><th>時間</th></tr>${[...new Set(P.shifts.map(s=>s.code))].map(c=>{const t=tmap.get(c)||{start:hhmm((S.types.get(c)||{}).start_time),end:hhmm((S.types.get(c)||{}).end_time)};return `<tr><td>${esc(c)}</td><td>${esc(t.start)}–${esc(t.end)}</td></tr>`;}).join('')}</table>`:''}
-    <button class="btn block" style="margin-top:14px" data-act="confirmImp" ${ok?'':'disabled'}>確認匯入</button>
-    <p class="muted small">會覆蓋你自己該月份的班表(其他人不受影響)。已經在系統內換過班的月份,請不要用舊截圖重新匯入。</p></div>`;
+    <div class="msg warn show" style="margin:6px 0 10px">請對照你的班表截圖,逐天確認班別與時間無誤(空白 = 休假)。</div>
+    ${monthGrid(P.month,(ds,d)=>{const c=map.get(ds);return `<div class="cell static"><span class="dn">${d}</span>${c?chipHTML(c,P.types,(P.types[c]||{}).start):''}</div>`;})}
+    <table style="margin-top:10px"><tr><th>班別</th><th>時間</th></tr>${[...new Set(P.shifts.map(s=>s.code))].map(c=>`<tr><td>${esc(c)}</td><td>${esc((P.types[c]||{}).start)}–${esc((P.types[c]||{}).end)}</td></tr>`).join('')}</table>
+    <div class="sec">用截圖對照(只在手機上顯示)</div>
+    <input type="file" id="imgPick" accept="image/*" hidden><label for="imgPick" class="btn ghost sm">${S.imp.img?'換一張截圖':'選擇班表截圖來對照'}</label>
+    ${S.imp.img?`<img class="thumb" src="${S.imp.img}" alt="班表截圖">`:''}`:''}
+    <button class="btn block" style="margin-top:14px" data-act="confirmImp" ${ok?'':'disabled'}>確認無誤,匯入</button>
+    <p class="muted small">會覆蓋你這個月的班表;已填的備註會保留。匯入後,請再為固定的特殊勤務加上標記。</p></div>`;
 }
-async function confirmImport(){
+function confirmImport(){
   const P=S.imp.parsed; if(!P||P.errors.length) return;
-  const used=new Set(P.shifts.map(s=>s.code));
-  const types=[...used].map(c=>P.types.get(c)).filter(Boolean);
-  try{
-    const {data,error}=await sb.rpc('import_my_shifts',{p_month:P.month,p_types:types,p_shifts:P.shifts});
-    if(error) throw error;
-    toast(`已匯入 ${data} 天`); S.imp.text=''; S.imp.parsed=null; S.imp.revealed=false; store.set('imp',{text:'',revealed:false});
-    S.page=null; S.tab='cal'; S.month=P.month; S.monthLoaded=null; await loadRefs(); await loadMonth(); renderMain();
-  }catch(e){ fail(e); }
-}
-async function copyText(text){
-  try{ await navigator.clipboard.writeText(text); return true; }catch(e){
-    try{ const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.focus(); ta.select(); const ok=document.execCommand('copy'); ta.remove(); return ok; }catch(e2){ return false; }
-  }
+  const n=D.swaps.filter(w=>w.status==='done'&&(w.d1.startsWith(P.month)||w.d2.startsWith(P.month))).length;
+  if(n && !confirm(`這個月已有 ${n} 筆換班紀錄。重新匯入會用截圖覆蓋目前班表(紀錄會保留)。確定?`)) return;
+  const next={}; Object.entries(D.shifts).forEach(([k,v])=>{ if(!k.startsWith(P.month)) next[k]=v; });
+  P.shifts.forEach(s=>{ const prev=D.shifts[s.date]; next[s.date]={code:s.code,duty:!!(prev&&prev.duty),note:(prev&&prev.note)||''}; });
+  D.shifts=next; Object.entries(P.types).forEach(([c,t])=>{ D.types[c]=t; });
+  if(!save()) return;
+  toast(`已匯入 ${P.shifts.length} 天`); S.imp.text=''; S.imp.parsed=null; S.imp.img&&URL.revokeObjectURL(S.imp.img); S.imp.img=null; draft.set({});
+  S.month=P.month; S.page=null; S.tab='cal'; S.afterImport=true; render(); window.scrollTo(0,0);
 }
 
 /* ============ 事件 ============ */
 const H = {
-  authMode:b=>renderAuth(b.dataset.mode),
-  logout:async()=>{ await sb.auth.signOut(); S.me=null; closeSheet(); renderAuth('login'); },
-  tab:b=>{ S.tab=b.dataset.tab; S.page=null; renderMain(); window.scrollTo(0,0); if(S.tab==='swap') loadSwaps().then(renderMain).catch(fail); },
-  monthPrev:async()=>{ S.month=prevMonth(S.month); S.monthLoaded=null; renderMain(); try{await loadMonth();}catch(e){fail(e)} renderMain(); },
-  monthNext:async()=>{ S.month=nextMonth(S.month); S.monthLoaded=null; renderMain(); try{await loadMonth();}catch(e){fail(e)} renderMain(); },
-  logPrev:()=>{ S.logMonth=prevMonth(S.logMonth); renderMain(); },
-  logNext:()=>{ S.logMonth=nextMonth(S.logMonth); renderMain(); },
-  reload:async()=>{ toast('更新中…'); await refreshAll(); toast('已更新'); },
-  openDay:b=>openDay(b.dataset.date),
+  tab:b=>{ S.tab=b.dataset.tab; S.page=null; S.sel=null; if(S.tab==='me') S.setup=null; render(); window.scrollTo(0,0); },
+  monthPrev:()=>{ S.month=prevMonth(S.month); render(); }, monthNext:()=>{ S.month=nextMonth(S.month); render(); },
+  logPrev:()=>{ S.logMonth=prevMonth(S.logMonth); render(); }, logNext:()=>{ S.logMonth=nextMonth(S.logMonth); render(); },
+  cellTap:b=>{ const ds=b.dataset.date; if(S.sel){ if(!D.shifts[ds]) return; S.sel.has(ds)?S.sel.delete(ds):S.sel.add(ds); render(); } else { S.day=ds; renderDay(); } },
+  selStart:()=>{ S.sel=new Set(); S.afterImport=false; render(); }, selCancel:()=>{ S.sel=null; render(); },
+  dismissAfter:()=>{ S.afterImport=false; render(); },
+  selApply:()=>{ const days=[...S.sel].sort(); openSheet(`<h2>新增特殊勤務</h2><p class="muted">套用到 ${days.length} 天:${days.map(fmtD).join('、')}</p>
+    <label class="f" for="batchNote">備註(自由填寫)</label><textarea id="batchNote" placeholder="例如:固定勤務內容、搭檔、注意事項…"></textarea>
+    <p class="muted small">這些日子會標上 ★,備註會顯示在各班的詳細內容。已有的備註會被這段取代。</p>
+    <div class="row" style="margin-top:10px"><button class="btn" data-act="batchSave">儲存</button><button class="btn ghost" data-act="closeSheet">返回</button></div>`); },
+  batchSave:()=>{ const note=$('#batchNote').value.trim(); [...S.sel].forEach(ds=>{ if(D.shifts[ds]){ D.shifts[ds].duty=true; D.shifts[ds].note=note; } }); if(save()){ const n=S.sel.size; S.sel=null; closeSheet(); toast(`已標記 ${n} 天`); render(); } },
   closeSheet:()=>closeSheet(),
-  dayFilter:b=>{ S.day.filter=b.dataset.code; renderDay(); },
-  swapStart:b=>swapStart(b),
-  swapSend:()=>swapSend(),
-  respond:b=>respond(+b.dataset.id,b.dataset.ok==='1'),
-  cancelReq:b=>cancelReq(+b.dataset.id),
-  exportCsv:()=>exportCsv(),
-  saveProfile:()=>saveProfile(),
-  openImport:()=>{ S.page='import'; closeSheet(); renderMain(); window.scrollTo(0,0); },
-  closeImport:()=>{ S.page=null; renderMain(); },
-  skipImg:()=>{ S.imp.revealed=true; store.set('imp',{text:S.imp.text,revealed:true}); renderMain(); },
-  copyPrompt:async b=>{ const ok=await copyText(PROMPT); if(ok){ S.imp.copied=true; S.imp.revealed=true; store.set('imp',{text:S.imp.text,revealed:true}); b.textContent='已複製 ✓ 再複製一次'; toast('提示詞已複製,去貼給 AI 吧'); }
-    else { toast('自動複製失敗,請展開「查看提示詞內容」手動全選複製',true); const d=document.querySelector('details'); if(d){d.open=true; const t=$('#promptBox'); t&&t.select();} } },
-  pasteClip:async()=>{ try{ const t=await navigator.clipboard.readText(); if(!t) return toast('剪貼簿是空的',true); S.imp.text=t; store.set('imp',{text:t,revealed:true}); S.imp.parsed=parseSchedule(t); renderMain(); }catch(e){ toast('無法讀取剪貼簿,請長按文字框手動貼上',true); } },
-  previewImp:()=>{ S.imp.text=$('#impText').value; store.set('imp',{text:S.imp.text,revealed:true}); S.imp.parsed=parseSchedule(S.imp.text); renderMain(); const el=document.querySelector('.msg.show,.btn[data-act=confirmImp]'); el&&el.scrollIntoView({behavior:'smooth',block:'center'}); },
+  saveDay:()=>saveDay(), fixDay:()=>fixDay(),
+  swapStart:()=>swapStart(), swapNext:()=>swapNext(), swapBack:()=>{ S.sw.step=1; renderSwap(); }, swapConfirm:()=>swapConfirm(),
+  copySwap:async()=>{ const w=S.sw; const ok=await copyText(swapText({...w,note1:(D.shifts[w.d1]||{}).note||''},swapCompare(w))); toast(ok?'已複製明細':'複製失敗',!ok); },
+  modalGo:()=>{ closeModal(); const g=S.pendingGo; S.pendingGo=null; g&&g(); }, modalCancel:()=>{ closeModal(); S.pendingGo=null; },
+  copyLog:b=>copyLog(b.dataset.id), undoSwap:b=>undoSwap(b.dataset.id), exportCsv:()=>exportCsv(),
+  pickSkills:()=>{ if($('#p_id')){ S.setup.id=$('#p_id').value; S.setup.name=$('#p_name').value; } skillSheet(); },
+  skillToggle:b=>{ const k=b.dataset.s, a=S.setup.skills; const i=a.indexOf(k); i>=0?a.splice(i,1):a.push(k); skillSheet(); },
+  skillDone:()=>{ closeSheet(); if(D.profile&&S.tab!=='me'&&!S.page&&false){} S.page!=='import'&&renderProfileArea(); },
+  backup:()=>backup(),
+  wipe:()=>{ if(confirm('清除這支手機上的所有班表、紀錄與個人資料?此動作無法復原(建議先匯出備份)。')&&confirm('再確認一次:真的要全部清除?')){ D=blank(); save(); S.setup=null; S.sel=null; render(); } },
+  openImport:()=>{ S.page='import'; S.sel=null; closeSheet(); render(); window.scrollTo(0,0); },
+  closeImport:()=>{ S.page=null; render(); },
+  copyPrompt:async b=>{ const ok=await copyText(PROMPT); if(ok){ S.imp.copied=true; b.textContent='已複製 ✓ 再複製一次'; toast('提示詞已複製,去貼給 AI 吧'); } else { toast('自動複製失敗,請展開「查看提示詞內容」手動全選複製',true); const d=document.querySelector('details'); if(d){d.open=true; const t=$('#promptBox'); t&&t.select();} } },
+  pasteClip:async()=>{ try{ const t=await navigator.clipboard.readText(); if(!t) return toast('剪貼簿是空的',true); S.imp.text=t; draft.set({text:t}); S.imp.parsed=parseSchedule(t); render(); scrollPrev(); }catch(e){ toast('無法讀取剪貼簿,請長按文字框手動貼上',true); } },
+  previewImp:()=>{ S.imp.text=$('#impText').value; draft.set({text:S.imp.text}); S.imp.parsed=parseSchedule(S.imp.text); render(); scrollPrev(); },
   confirmImp:()=>confirmImport()
 };
+function renderProfileArea(){ if(!D.profile) renderSetup(true); else render(); }
+function scrollPrev(){ const el=$('#impPrev'); el&&el.scrollIntoView({behavior:'smooth',block:'start'}); }
 document.addEventListener('click',e=>{ const a=e.target.closest('[data-act]'); if(!a) return; const f=H[a.dataset.act]; if(f){ e.preventDefault(); Promise.resolve(f(a,e)).catch(fail); } });
-document.addEventListener('submit',e=>{ const f=e.target.closest('[data-form]'); if(!f) return; e.preventDefault(); submitAuth(f.dataset.form); });
-document.addEventListener('input',e=>{ if(e.target.id==='impText'){ S.imp.text=e.target.value; store.set('imp',{text:S.imp.text,revealed:true}); } });
-document.addEventListener('change',e=>{
-  if(e.target.id==='imgPick' && e.target.files[0]){
-    const f=e.target.files[0]; if(S.imp.img) URL.revokeObjectURL(S.imp.img);
-    S.imp.img=URL.createObjectURL(f); S.imp.imgName=f.name; S.imp.revealed=true; store.set('imp',{text:S.imp.text,revealed:true}); renderMain();
-  }
+document.addEventListener('submit',e=>{ const f=e.target.closest('[data-form]'); if(!f) return; e.preventDefault(); submitProfile(); });
+document.addEventListener('input',e=>{
+  const id=e.target.id;
+  if(id==='p_id') S.setup.id=e.target.value; else if(id==='p_name') S.setup.name=e.target.value;
+  else if(id==='impText'){ S.imp.text=e.target.value; draft.set({text:S.imp.text}); }
+  else if(S.sw && id && id.startsWith('sw_')){ const k={sw_partner:'partner',sw_d2:'d2',sw_note:'note',sw_newCode:'newCode',sw_newStart:'newStart',sw_newEnd:'newEnd'}[id]; if(k) S.sw[k]=e.target.value; }
 });
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden && S.me && Date.now()-S.lastLoad>20000 && !S.page) refreshAll(); });
+document.addEventListener('change',e=>{
+  const id=e.target.id;
+  if(id==='sw_code' && S.sw){ S.sw.partner=$('#sw_partner').value; S.sw.d2=$('#sw_d2').value||S.sw.d1; S.sw.note=$('#sw_note').value; S.sw.code=e.target.value; renderSwap(); }
+  else if(id==='imgPick' && e.target.files[0]){ const f=e.target.files[0]; if(S.imp.img) URL.revokeObjectURL(S.imp.img); S.imp.img=URL.createObjectURL(f); S.imp.imgName=f.name; const y=window.scrollY; render(); window.scrollTo(0,y); }
+  else if(id==='restorePick' && e.target.files[0]){ restore(e.target.files[0]); e.target.value=''; }
+});
 
-/* ============ 啟動 ============ */
-(async function init(){
-  setupIcon();
-  try{
-    sb.auth.onAuthStateChange(ev=>{ if(ev==='SIGNED_OUT' && S.me){ S.me=null; renderAuth('login'); } });
-    const {data:{session}}=await sb.auth.getSession();
-    if(!session) return renderAuth('login');
-    await afterLogin();
-  }catch(e){ renderAuth('login','連線失敗:'+(e.message||e)); }
-})();
+setupIcon();
+try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
+render();
 </script>
 </body>
 </html>
